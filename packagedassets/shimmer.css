@@ -1,0 +1,55 @@
+.shimmer [data-dash-is-loading="true"] {
+    will-change: transform;
+    animation: placeHolderShimmer 1s linear infinite forwards;
+    -webkit-backface-visibility: hidden;
+    background: #e6e6e6;
+    background: linear-gradient(90deg, #eee 8%, #ddd 18%, #eee 33%);
+    background-size: 800px 104px;
+    border-radius: 5%;
+    height: 100%;
+    visibility: visible;
+    position: relative;
+}
+
+.shimmer [data-dash-is-loading="true"] * {
+    color: transparent !important;
+    opacity: 0.8
+}
+
+.no-dash-spinner .dash-spinner {
+    visibility: hidden;
+}
+
+@keyframes placeHolderShimmer {
+    0% {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        background-position: -468px 0;
+        opacity: .7
+    }
+
+    45% {
+        opacity: .8
+    }
+
+    75% {
+        opacity: 1
+    }
+
+    100% {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        background-position: 468px 0;
+        opacity: .7
+    }
+}
+
+@keyframes placeholderAnimate {
+    0% {
+        background-position: -650px 0
+    }
+
+    100% {
+        background-position: 650px 0
+    }
+}
