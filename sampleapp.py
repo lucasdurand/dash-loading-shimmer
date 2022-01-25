@@ -21,6 +21,7 @@ class Shimmer(dcc.Loading):  # TODO: spinner briefly appears before stylesheets 
 
 def local_css(app: Dash, *, path: os.PathLike):
     endpoint = app.get_relative_path("/shimmerstylesheet")
+    servedlocally = app.css.config.serve_locally
 
     if (
         "serve_shimmer_stylesheet" not in app.server.view_functions
@@ -31,7 +32,17 @@ def local_css(app: Dash, *, path: os.PathLike):
         def serve_shimmer_stylesheet():
             return send_from_directory(directory=ASSETSDIR, path=path)
 
-    return html.Link(rel="stylesheet", href=endpoint)
+        if servedlocally:
+            app.css.append_css({"external_url": endpoint})
+            app.css.config.serve_locally = (
+                False  # this would be a common setting for PROD dashboards -- but
+                # should we enforce it always? That would make this easier
+                # and solve the slow load on CSS via html.Link
+                # Consider raising an Exception here, requiring explicitly passing local=False
+                # to the function or setting explictly in the app settings
+            )
+
+    return html.Div() if servedlocally else html.Link(rel="stylesheet", href=endpoint)
 
 
 # Little App
