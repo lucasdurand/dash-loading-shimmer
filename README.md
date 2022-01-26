@@ -30,7 +30,7 @@ app.layout = html.Div([
 app.run_server()
 ```
 
-If you want to tweak the CSS used, inject your own CSS before `Shimmer` gets there with the `shimmer_css` function
+If you want to tweak the CSS used, inject your own CSS before `Shimmer` gets there with the `shimmer_css` function. Common styles to tweak are the opacity, hue, and speed of the shimmer
 
 ```python
 import dash_loading_extras as loading
