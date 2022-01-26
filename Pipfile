@@ -13,6 +13,8 @@ plotly = "*"
 ipykernel = "*"
 black = "*"
 pylint = "*"
+setuptools_scm = "*"
+build = "*"
 
 [requires]
 python_version = "3.9"

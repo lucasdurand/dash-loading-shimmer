@@ -1,8 +1,10 @@
+import os  # TODO: use PathLib
+
 from dash import html, dcc, Dash, Output, Input
 import dash_bootstrap_components as dbc
 from flask import send_from_directory
 import plotly.express as px
-import os  # TODO: use PathLib
+
 
 ASSETSDIR = os.path.join(os.path.dirname(__file__), "packagedassets")
 
