@@ -21,8 +21,10 @@ app.layout = html.Div([
     html.H1("A Long Loading Graph"),
     html.H2("It's worth the wait!"),
     loading.Shimmer(
-        dcc.Graph(figure=fig, id="graph")
-    )
+        dcc.Graph(figure=fig, id="graph"),
+        app=app,
+        # show_spinner=True # optionally keep the loading animation on top of the shimmering element
+    ),
 ])
 
 app.run_server()
@@ -34,3 +36,4 @@ Open to ideas! So far there's:
 
 * Customize shimmer styles (programmatically generating CSS at runtime)
 * More loaders (spinning, bouncing, erupting?)
+* Remove need to pass `app` into `Shimmer` call
