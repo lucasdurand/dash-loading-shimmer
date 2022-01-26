@@ -17,20 +17,20 @@ except PackageNotFoundError:  # package is not installed
 
     __version__ = get_version(root="..", relative_to=__file__)
 
-_ASSETSDIR = os.path.join(os.path.dirname(__file__), "..", "packagedassets")
+ASSETSDIR = os.path.join(os.path.dirname(__file__), "..", "packagedassets")
 
 
 class Shimmer(dcc.Loading):
     """Display a pre-load shimmer over loading Dash components"""
 
     def __init__(self, children: list, *, app: Dash, show_spinner=False, **kwargs):
-        _shimmer_css(app=app, path="shimmer.css")
+        shimmer_css(app=app, path="shimmer.css")
         shimmerclass = "shimmer" if show_spinner else "shimmer no-dash-spinner"
         parent_className = kwargs.pop("parent_className", shimmerclass)
         super().__init__(children=children, parent_className=parent_className, **kwargs)
 
 
-def _shimmer_css(app: Dash, *, path: os.PathLike = "shimmer.css"):
+def shimmer_css(app: Dash, *, path: os.PathLike = "shimmer.css"):
     endpoint = app.get_relative_path("/shimmerstylesheet")
     servedlocally = app.css.config.serve_locally
 
@@ -41,7 +41,7 @@ def _shimmer_css(app: Dash, *, path: os.PathLike = "shimmer.css"):
 
         @app.server.route(endpoint)
         def serve_shimmer_stylesheet():
-            return send_from_directory(directory=_ASSETSDIR, path=path)
+            return send_from_directory(directory=ASSETSDIR, path=path)
 
         if servedlocally:
             app.css.append_css({"external_url": endpoint})

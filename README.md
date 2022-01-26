@@ -30,6 +30,19 @@ app.layout = html.Div([
 app.run_server()
 ```
 
+If you want to tweak the CSS used, inject your own CSS before `Shimmer` gets there with the `shimmer_css` function
+
+```python
+import dash_loading_extras as loading
+app = Dash()
+
+loading.ASSETSDIR = "path/to/your/cssassets/folder"
+loading.shimmer_css(app=app, path="my_better_shimmer.css")
+
+app.layout = ...
+
+```
+
 ## Future Work
 
 Open to ideas! So far there's:
