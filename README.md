@@ -3,7 +3,9 @@
 [![PyPI version](https://badge.fury.io/py/dash-loading-extras.svg)](https://badge.fury.io/py/dash-loading-extras)
 
 
-A shimmer pre-load component for Plotly Dash
+A shimmer pre-load component for Plotly Dash. Check out a *very* minimal example here: https://dash-loading-shimmer.herokuapp.com/
+
+![Simple Shimmer Example](simpleshimmer.gif)
 
 ## Installation
 
