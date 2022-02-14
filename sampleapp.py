@@ -29,3 +29,10 @@ def update_graph(click):
 server = app.server
 if __name__ == "__main__":
     app.run_server(debug=True)
+
+if __name__ != "__main__":
+    import logging
+
+    gunicorn_logger = logging.getLogger("gunicorn.error")
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
