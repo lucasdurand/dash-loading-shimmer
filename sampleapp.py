@@ -26,4 +26,6 @@ def update_graph(click):
     return fig
 
 
-app.run_server()
+server = app.server
+if __name__ == "__main__":
+    app.run_server(debug=True)

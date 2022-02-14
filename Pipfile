@@ -10,6 +10,7 @@ pandas = "*"
 plotly = "*"
 
 [dev-packages]
+gunicorn = "*"
 ipykernel = "*"
 black = "*"
 pylint = "*"
