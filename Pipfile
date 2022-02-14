@@ -9,10 +9,10 @@ dash-bootstrap-components = "*"
 pandas = "*"
 plotly = "*"
 gunicorn = "*"
-setuptools-scm = "*"
 
 [dev-packages]
 ipykernel = "*"
+setuptools-scm = "*"
 black = "*"
 pylint = "*"
 build = "*"
