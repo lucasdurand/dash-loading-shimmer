@@ -8,9 +8,9 @@ dash = "*"
 dash-bootstrap-components = "*"
 pandas = "*"
 plotly = "*"
+gunicorn = "*"
 
 [dev-packages]
-gunicorn = "*"
 ipykernel = "*"
 black = "*"
 pylint = "*"
