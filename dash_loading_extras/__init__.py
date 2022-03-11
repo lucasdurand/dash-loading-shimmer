@@ -20,7 +20,7 @@ except PackageNotFoundError:  # package is not installed
     except (ModuleNotFoundError, LookupError):  # deployed without package install
         __version__ = None
 
-ASSETSDIR = os.path.join(os.path.dirname(__file__), "..", "packagedassets")
+ASSETSDIR = os.path.join(os.path.dirname(__file__), "packagedassets")
 
 
 class Shimmer(dcc.Loading):
