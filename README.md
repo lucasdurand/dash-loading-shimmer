@@ -3,7 +3,7 @@
 [![PyPI version](https://badge.fury.io/py/dash-loading-extras.svg)](https://badge.fury.io/py/dash-loading-extras)
 
 
-A shimmer pre-load component for Plotly Dash. Check out a *very* minimal example here: https://dash-loading-shimmer.herokuapp.com/
+A shimmer pre-load component for Plotly Dash. Check out [sampleapp.py](sampleapp.py) for a *very* minimal example.
 
 ![Simple Shimmer Example](simpleshimmer.gif)
 
@@ -33,7 +33,7 @@ app.layout = html.Div([
     ),
 ])
 
-app.run_server()
+app.run()
 ```
 
 If you want to tweak the CSS used, inject your own CSS before `Shimmer` gets there with the `shimmer_css` function. Common styles to tweak are the opacity, hue, and speed of the shimmer
@@ -48,6 +48,17 @@ loading.shimmer_css(app=app, path="my_better_shimmer.css")
 app.layout = ...
 
 ```
+
+## Deploying the sample app
+
+[sampleapp.py](sampleapp.py) runs on [Google App Engine](https://cloud.google.com/appengine/docs/standard/python3) standard (F1 instance, scales to zero, within the free tier), as the `dash-loading-shimmer` service. App Engine installs from `requirements.txt` and imports `dash_loading_extras` straight from the source tree.
+
+1. Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/install), then `gcloud init` and pick your project
+1. If you changed dependencies, regenerate `requirements.txt`: `uv export --no-dev --group sampleapp --no-emit-project --no-hashes -o requirements.txt`
+1. Deploy with `gcloud app deploy`
+1. View it with `gcloud app browse -s dash-loading-shimmer`
+
+App Engine requires a project's first service to be `default`, so in a brand new project remove the `service:` line from `app.yaml` for the first deploy.
 
 ## Future Work
 

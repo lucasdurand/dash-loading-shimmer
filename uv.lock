@@ -6,10 +6,10 @@ resolution-markers = [
     "python_full_version >= '3.14' and sys_platform == 'emscripten'",
     "python_full_version >= '3.14' and sys_platform != 'emscripten' and sys_platform != 'win32'",
     "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'win32'",
-    "python_full_version < '3.12' and sys_platform == 'win32'",
     "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'emscripten'",
-    "python_full_version < '3.12' and sys_platform == 'emscripten'",
     "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform != 'emscripten' and sys_platform != 'win32'",
+    "python_full_version < '3.12' and sys_platform == 'win32'",
+    "python_full_version < '3.12' and sys_platform == 'emscripten'",
     "python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32'",
 ]
 
@@ -506,6 +506,12 @@ dev = [
     { name = "setuptools-scm" },
     { name = "twine" },
 ]
+sampleapp = [
+    { name = "dash-bootstrap-components" },
+    { name = "gunicorn" },
+    { name = "pandas" },
+    { name = "plotly" },
+]
 
 [package.metadata]
 requires-dist = [
@@ -525,6 +531,12 @@ dev = [
     { name = "pylint", specifier = ">=4.1" },
     { name = "setuptools-scm", specifier = ">=10.3" },
     { name = "twine", specifier = ">=7.0" },
+]
+sampleapp = [
+    { name = "dash-bootstrap-components", specifier = ">=2.0" },
+    { name = "gunicorn", specifier = ">=26.2" },
+    { name = "pandas", specifier = ">=3.0" },
+    { name = "plotly", specifier = ">=7.1" },
 ]
 
 [[package]]

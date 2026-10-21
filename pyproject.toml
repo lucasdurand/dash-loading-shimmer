@@ -17,13 +17,14 @@ dependencies = [
 Homepage = "https://github.com/lucasdurand/dash-loading-shimmer"
 
 [dependency-groups]
-dev = [
-    # sampleapp.py
+sampleapp = [
     "dash-bootstrap-components>=2.0",
     "gunicorn>=26.2",
     "pandas>=3.0",
     "plotly>=7.1",
-    # tooling
+]
+dev = [
+    { include-group = "sampleapp" },
     "black>=26.10",
     "build>=1.6",
     "ipykernel>=7.4",
