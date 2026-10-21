@@ -58,7 +58,13 @@ app.layout = ...
 1. Deploy with `gcloud app deploy`
 1. View it with `gcloud app browse -s dash-loading-shimmer`
 
+Pushes to `main` deploy automatically via [the Deploy workflow](.github/workflows/deploy.yml), which needs a `GCP_SA_KEY` Actions secret (service-account key JSON). It also fails if `requirements.txt` is out of date with `uv.lock`.
+
 App Engine requires a project's first service to be `default`, so in a brand new project remove the `service:` line from `app.yaml` for the first deploy.
+
+## Releasing
+
+Publishing a GitHub release tagged with the version (e.g. `0.1.4`) builds the package and uploads it to PyPI via [the Publish workflow](.github/workflows/publish.yml). setuptools-scm takes the version from the tag. The workflow needs a `PYPI_API_TOKEN` Actions secret.
 
 ## Future Work
 
