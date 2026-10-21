@@ -1,6 +1,40 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+requires = ["setuptools>=64", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "dash_loading_extras"
+dynamic = ["version"]
+description = "A shimmer pre-load component for Plotly Dash"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "dash>=2.0",
+    "flask",
+]
+
+[project.urls]
+Homepage = "https://github.com/lucasdurand/dash-loading-shimmer"
+
+[dependency-groups]
+dev = [
+    # sampleapp.py
+    "dash-bootstrap-components>=2.0",
+    "gunicorn>=26.2",
+    "pandas>=3.0",
+    "plotly>=7.1",
+    # tooling
+    "black>=26.10",
+    "build>=1.6",
+    "ipykernel>=7.4",
+    "pylint>=4.1",
+    "setuptools-scm>=10.3",
+    "twine>=7.0",
+]
+
+[tool.setuptools]
+packages = ["dash_loading_extras"]
+include-package-data = true
+
 [tool.setuptools_scm]
-write_to = "dash_loading_extras/_version.py"
+version_file = "dash_loading_extras/_version.py"

@@ -11,7 +11,7 @@ A shimmer pre-load component for Plotly Dash. Check out a *very* minimal example
 
 Get it with **pip**: `pip install dash-loading-extras`
 
-Or maybe you prefer **Pipenv**: `pipenv install dash-loading-extras`
+Or maybe you prefer **uv**: `uv add dash-loading-extras`
 
 ## Usage
 
