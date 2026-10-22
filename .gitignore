@@ -129,4 +129,3 @@ dmypy.json
 .pyre/
 
 # setuptools-scm
-dash_loading_extras/_version.py

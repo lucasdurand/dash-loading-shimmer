@@ -1,0 +1,93 @@
+name: Release
+
+# main: publish the version in pyproject.toml to PyPI (and tag it) if it isn't tagged yet.
+# develop: publish <version>.dev<run number> to PyPI as a pre-release.
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      publish: ${{ steps.version.outputs.publish }}
+      prerelease: ${{ steps.version.outputs.prerelease }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.3.0
+      - name: Work out version
+        id: version
+        env:
+          EVENT: ${{ github.event_name }}
+          BRANCH: ${{ github.ref_name }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          version="$(uv version --short)"
+          released=false
+          if git ls-remote --exit-code --tags origin "refs/tags/v$version" >/dev/null; then
+            released=true
+          fi
+          publish=false
+          prerelease=false
+          if [ "$EVENT" != pull_request ] && [ "$BRANCH" = main ]; then
+            if [ "$released" = true ]; then
+              echo "::notice::v$version is already released; bump the version to publish a new release"
+            else
+              publish=true
+            fi
+          elif [ "$EVENT" != pull_request ] && [ "$BRANCH" = develop ]; then
+            if [ "$released" = true ]; then
+              version="$(uv version --bump patch --dry-run --short)"
+              echo "::notice::v$(uv version --short) is already released, so dev builds count towards $version. Bump the version on develop to choose a different next release."
+            fi
+            version="$version.dev$RUN_NUMBER"
+            uv version "$version" --frozen
+            publish=true
+            prerelease=true
+          fi
+          {
+            echo "version=$version"
+            echo "publish=$publish"
+            echo "prerelease=$prerelease"
+          } >> "$GITHUB_OUTPUT"
+      - run: uv build
+      - run: uvx twine check --strict dist/*
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    if: needs.build.outputs.publish == 'true'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          skip-existing: true
+      - name: Tag and create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.build.outputs.version }}
+          PRERELEASE: ${{ needs.build.outputs.prerelease }}
+        run: |
+          flags=()
+          if [ "$PRERELEASE" = true ]; then flags+=(--prerelease); fi
+          gh release create "v$VERSION" dist/* --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "v$VERSION" --generate-notes "${flags[@]}"

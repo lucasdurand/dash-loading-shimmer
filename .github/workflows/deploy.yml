@@ -2,7 +2,7 @@ name: Deploy to App Engine
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
   workflow_dispatch:
 
@@ -15,6 +15,8 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      DEPLOY: ${{ github.event_name != 'pull_request' && (github.ref_name == 'main' || github.ref_name == 'develop') }}
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v10.3.0
@@ -25,11 +27,19 @@ jobs:
             exit 1
           fi
       - uses: google-github-actions/auth@v3
-        if: github.event_name != 'pull_request'
+        if: env.DEPLOY == 'true'
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
       - uses: google-github-actions/setup-gcloud@v3
-        if: github.event_name != 'pull_request'
+        if: env.DEPLOY == 'true'
       - name: Deploy
-        if: github.event_name != 'pull_request'
-        run: gcloud app deploy app.yaml --project "$GCP_PROJECT_ID" --quiet
+        if: env.DEPLOY == 'true'
+        run: |
+          if [ "$GITHUB_REF_NAME" = main ]; then
+            gcloud app deploy app.yaml --project "$GCP_PROJECT_ID" --quiet
+          else
+            # develop: preview version that gets no traffic, at its own URL
+            gcloud app deploy app.yaml --project "$GCP_PROJECT_ID" --quiet --no-promote --version develop
+            service="$(sed -n 's/^service: *//p' app.yaml)"
+            echo "Preview: https://develop-dot-$service-dot-$GCP_PROJECT_ID.uc.r.appspot.com" >> "$GITHUB_STEP_SUMMARY"
+          fi
