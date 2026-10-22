@@ -1,0 +1,8 @@
+runtime: python312
+service: dash-loading-shimmer
+entrypoint: gunicorn -b :$PORT -w 1 --threads 4 --timeout 60 sampleapp:server
+
+instance_class: F1
+automatic_scaling:
+  min_instances: 0
+  max_instances: 1

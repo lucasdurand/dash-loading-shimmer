@@ -28,7 +28,7 @@ def update_graph(click):
 
 server = app.server
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run(debug=True)
 
 if __name__ != "__main__":
     import logging
