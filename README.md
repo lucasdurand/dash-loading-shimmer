@@ -58,7 +58,16 @@ app.layout = ...
 1. Deploy with `gcloud app deploy`
 1. View it with `gcloud app browse -s dash-loading-shimmer`
 
+Pushes to `main` deploy automatically via [the Deploy workflow](.github/workflows/deploy.yml). Pushes to `develop` upload a preview version that gets no traffic, at https://develop-dot-dash-loading-shimmer-dot-ladders-dash.uc.r.appspot.com. The workflow needs a `GCP_SA_KEY` Actions secret (service-account key JSON). It also fails if `requirements.txt` is out of date with `uv.lock`.
+
 App Engine requires a project's first service to be `default`, so in a brand new project remove the `service:` line from `app.yaml` for the first deploy.
+
+## Releasing
+
+[The Release workflow](.github/workflows/release.yml) publishes to PyPI based on the version in `pyproject.toml`. It needs a `PYPI_API_TOKEN` Actions secret.
+
+- **Merge to `main`:** if that version isn't tagged yet, it's published to PyPI and tagged (`v<version>`) with a GitHub release. To release, bump the version (`uv version --bump patch`) and merge to `main`.
+- **Merge to `develop`:** a dev pre-release `<version>.dev<N>` is published (N is the workflow run number). If the version is already released, dev builds count towards the next patch version. Install one with `pip install --pre dash_loading_extras`.
 
 ## Future Work
 

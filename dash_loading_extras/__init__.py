@@ -12,13 +12,8 @@ if TYPE_CHECKING:
 
 try:  # get version at importtime
     __version__ = version("dash_loading_extras")
-except PackageNotFoundError:  # package is not installed
-    try:
-        from setuptools_scm import get_version
-
-        __version__ = get_version(root="..", relative_to=__file__)
-    except (ModuleNotFoundError, LookupError):  # deployed without package install
-        __version__ = None
+except PackageNotFoundError:  # deployed without package install
+    __version__ = None
 
 ASSETSDIR = os.path.join(os.path.dirname(__file__), "packagedassets")
 
